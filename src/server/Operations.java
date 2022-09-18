@@ -4,6 +4,7 @@ import Classes.Animal;
 import Classes.User;
 import main.Configs;
 import utils.FileIO;
+import utils.MyMail;
 import utils.Utils;
 
 import java.io.IOException;
@@ -181,7 +182,29 @@ public class Operations {
         sendObj.writeObject(result);
     }
 
-    public static void reqToAdoptPet(ObjectOutputStream sendObj, ObjectInputStream receiveObj) {
+    public static void reqToAdoptPet(ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
+        User user = (User) receiveObj.readObject();
+        System.out.println(" - Received User Object");
+        Animal animal = (Animal) receiveObj.readObject();
+        System.out.println(" - Received Animal Object");
+
+        String message = user.getName() +  " has Requested for Adoption.";
+        message += "\n\n\nPet Info:";
+        message += "\nPet name: " + animal.getPetname();
+        message += "\nBreed name: " + animal.getBreedName();
+        message += "\n\n\nApplicant:";
+        message += "\n" + user.getName();
+        message += "\nContact: " + user.getContact();
+        message += "\nEmail: " + user.getEmail();
+        message += "\nLocation: " + user.getLocation() + "\n";
+
+        String subject = "Request for Pet Adoption from " + user.getName();
+        String from = Configs.serverEmail;
+        String to = Server.usersName.get(animal.getOwner());
+        System.out.println(" - Constructed The Email");
+
+        MyMail.sendEmail(message, subject, to, from);
+        System.out.println(" - Email Sent Success!");
     }
 
     public static void getUploadedAnimal(String animal, ObjectOutputStream sendObj, ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
