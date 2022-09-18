@@ -149,6 +149,7 @@ public class Operations {
         Server.favourite.computeIfAbsent(user.getEmail(), k -> new ArrayList<>());
         Server.favourite.get(user.getEmail()).add(animal);
         FileIO.writeObjToFile(Server.favourite, Configs.favouriteData);
+        System.out.println(" - Add: " + Server.favourite.get(user.getEmail()).size());
     }
 
     public static void removeFromFavourite(ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
@@ -157,12 +158,14 @@ public class Operations {
         Server.favourite.computeIfAbsent(user.getEmail(), k -> new ArrayList<>());
         Server.favourite.get(user.getEmail()).removeIf(a -> matchAnimal(a, animal));
         FileIO.writeObjToFile(Server.favourite, Configs.favouriteData);
+        System.out.println(" - Remove: " + Server.favourite.get(user.getEmail()).size());
     }
 
     public static void getFavouriteList(ObjectOutputStream sendObj, ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
         User user = (User) receiveObj.readObject();
         Server.favourite.computeIfAbsent(user.getEmail(), k -> new ArrayList<>());
         sendObj.writeObject(Server.favourite.get(user.getEmail()));
+        System.out.println(" - Get: " + Server.favourite.get(user.getEmail()).size());
     }
 
     public static void checkFavourite(ObjectOutputStream sendObj, ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
