@@ -143,7 +143,23 @@ public class Operations {
         }
     }
 
-    public static void addToFavourite(ObjectOutputStream sendObj, ObjectInputStream receiveObj) {
+    public static void addToFavourite(ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
+        User user = (User) receiveObj.readObject();
+        Animal animal = (Animal) receiveObj.readObject();
+        Server.favourite.get(user.getEmail()).add(animal);
+        FileIO.writeObjToFile(Server.favourite, Configs.favouriteData);
+    }
+
+    public static void removeFromFavourite(ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
+        User user = (User) receiveObj.readObject();
+        Animal animal = (Animal) receiveObj.readObject();
+        Server.favourite.get(user.getEmail()).remove(animal);
+        FileIO.writeObjToFile(Server.favourite, Configs.favouriteData);
+    }
+
+    public static void getFavouriteList(ObjectOutputStream sendObj, ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
+        User user = (User) receiveObj.readObject();
+        sendObj.writeObject(Server.favourite.get(user.getEmail()));
     }
 
     public static void reqToAdoptPet(ObjectOutputStream sendObj, ObjectInputStream receiveObj) {

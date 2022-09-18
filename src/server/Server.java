@@ -33,11 +33,13 @@ public class Server {
             FileIO.checkDB(userData, users);
             FileIO.checkDB(catData, cat);
             FileIO.checkDB(dogData, dog);
+            FileIO.checkDB(favouriteData, favourite);
 
             // Read User & Pet Data
             users = FileIO.readObjFromFile(userData);
             cat = FileIO.readObjFromFile(catData);
             dog = FileIO.readObjFromFile(dogData);
+            favourite = FileIO.readObjFromFile(favouriteData);
 
             // Duplicate UserName Checking Map
             for (Map.Entry<String, User> u : users.entrySet()) {
