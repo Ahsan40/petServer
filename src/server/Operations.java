@@ -146,6 +146,7 @@ public class Operations {
     public static void addToFavourite(ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
         User user = (User) receiveObj.readObject();
         Animal animal = (Animal) receiveObj.readObject();
+        Server.favourite.computeIfAbsent(user.getEmail(), k -> new ArrayList<>());
         Server.favourite.get(user.getEmail()).add(animal);
         FileIO.writeObjToFile(Server.favourite, Configs.favouriteData);
     }
@@ -153,12 +154,14 @@ public class Operations {
     public static void removeFromFavourite(ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
         User user = (User) receiveObj.readObject();
         Animal animal = (Animal) receiveObj.readObject();
+        Server.favourite.computeIfAbsent(user.getEmail(), k -> new ArrayList<>());
         Server.favourite.get(user.getEmail()).remove(animal);
         FileIO.writeObjToFile(Server.favourite, Configs.favouriteData);
     }
 
     public static void getFavouriteList(ObjectOutputStream sendObj, ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
         User user = (User) receiveObj.readObject();
+        Server.favourite.computeIfAbsent(user.getEmail(), k -> new ArrayList<>());
         sendObj.writeObject(Server.favourite.get(user.getEmail()));
     }
 
@@ -166,6 +169,7 @@ public class Operations {
         boolean result = false;
         User user = (User) receiveObj.readObject();
         Animal animal = (Animal) receiveObj.readObject();
+        Server.favourite.computeIfAbsent(user.getEmail(), k -> new ArrayList<>());
         for(Animal a: Server.favourite.get(user.getEmail()))
             if(matchAnimal(a, animal)) {
                 result = true;
