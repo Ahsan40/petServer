@@ -51,6 +51,7 @@ public class ClientHandler implements Runnable {
                 case "login" -> Operations.login(sendObj, receiveObj);
                 case "logout" -> Operations.logout(sendObj);
                 case "addAnimal" -> Operations.addAnimal(sendObj, receiveObj);
+                case "checkFavourite" -> Operations.checkFavourite(sendObj, receiveObj);
                 case "addToFavourite" -> Operations.addToFavourite(receiveObj);
                 case "removeFromFavourite" -> Operations.removeFromFavourite(receiveObj);
                 case "getFavouriteList" -> Operations.getFavouriteList(sendObj, receiveObj);

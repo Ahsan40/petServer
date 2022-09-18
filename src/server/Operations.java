@@ -162,6 +162,18 @@ public class Operations {
         sendObj.writeObject(Server.favourite.get(user.getEmail()));
     }
 
+    public static void checkFavourite(ObjectOutputStream sendObj, ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
+        boolean result = false;
+        User user = (User) receiveObj.readObject();
+        Animal animal = (Animal) receiveObj.readObject();
+        for(Animal a: Server.favourite.get(user.getEmail()))
+            if(matchAnimal(a, animal)) {
+                result = true;
+                break;
+            }
+        sendObj.writeObject(result);
+    }
+
     public static void reqToAdoptPet(ObjectOutputStream sendObj, ObjectInputStream receiveObj) {
     }
 
