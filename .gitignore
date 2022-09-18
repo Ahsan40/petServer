@@ -37,3 +37,10 @@ build/
 ### Mac OS ###
 .DS_Store
 .idea/vcs.xml
+
+# Custom
+out/
+/.idea/uiDesigner.xml
+
+# Exception
+!/src/lib/*
