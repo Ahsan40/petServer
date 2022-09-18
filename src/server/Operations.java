@@ -210,7 +210,7 @@ public class Operations {
             return false;
         return true;
     }
-    public static void updatePetStatus(ObjectOutputStream sendObj, ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
+    public static void updatePetStatus(ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
         Animal animal = (Animal) receiveObj.readObject();
         System.out.println(" - (updatePetStatus) Animal Name: " + animal.getBreedName());
         int i = 0;

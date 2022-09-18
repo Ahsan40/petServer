@@ -56,7 +56,7 @@ public class ClientHandler implements Runnable {
                 case "getUploadedCat" -> Operations.getUploadedCat(sendObj, receiveObj);
                 case "getUploadedDog" -> Operations.getUploadedDog(sendObj, receiveObj);
                 case "getUserFromUserName" -> Operations.getUserFromUserName(sendObj, receiveObj);
-                case "updatePetStatus" -> Operations.updatePetStatus(sendObj, receiveObj);
+                case "updatePetStatus" -> Operations.updatePetStatus(receiveObj);
             }
         } catch (Exception e) {
             close(sc, receiveObj, sendObj);
