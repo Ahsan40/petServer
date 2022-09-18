@@ -155,7 +155,7 @@ public class Operations {
         User user = (User) receiveObj.readObject();
         Animal animal = (Animal) receiveObj.readObject();
         Server.favourite.computeIfAbsent(user.getEmail(), k -> new ArrayList<>());
-        Server.favourite.get(user.getEmail()).remove(animal);
+        Server.favourite.get(user.getEmail()).removeIf(a -> matchAnimal(a, animal));
         FileIO.writeObjToFile(Server.favourite, Configs.favouriteData);
     }
 
