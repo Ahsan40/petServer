@@ -16,8 +16,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Utils {
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
     public static String sha256(final String base) {
-        try{
+        try {
             final MessageDigest digest = MessageDigest.getInstance("SHA-256");
             final byte[] hash = digest.digest(base.getBytes(StandardCharsets.UTF_8));
             final StringBuilder hexString = new StringBuilder();
@@ -28,7 +31,7 @@ public class Utils {
                 hexString.append(hex);
             }
             return hexString.toString();
-        } catch(Exception ex){
+        } catch (Exception ex) {
             throw new RuntimeException(ex);
         }
     }
@@ -73,7 +76,6 @@ public class Utils {
         }
     }
 
-
     synchronized public static HashMap<String, User> readHashMapFromFile(String filePath) {
         HashMap<String, User> data = null;
         try {
@@ -106,13 +108,10 @@ public class Utils {
             path = path + sha256(name) + ext;
             File dest = new File(path);
             Files.copy(file.toPath(), dest.toPath());
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }
         return path;
     }
-
-
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
-            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     public static boolean validateEmail(String emailStr) {
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
@@ -150,10 +149,10 @@ public class Utils {
         return imageString;
     }
 
-    public static String base64ToImg(String base64string, String extension, String imgPath){
+    public static String base64ToImg(String base64string, String extension, String imgPath) {
         String path;
         //convert base64 string to binary data
-        byte[] data =  Base64.getDecoder().decode(base64string);
+        byte[] data = Base64.getDecoder().decode(base64string);
         String fileName = UUID.randomUUID().toString();
         path = imgPath + fileName + "." + extension;
         File file = new File(path);
@@ -164,6 +163,7 @@ public class Utils {
         }
         return path;
     }
+
     public static String base64ToImg(Img img, String imgPath) {
         return base64ToImg(img.getBase64(), img.getExtension(), imgPath);
     }

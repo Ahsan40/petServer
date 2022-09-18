@@ -38,7 +38,7 @@ public class Operations {
     public static void login(ObjectOutputStream sendObj, ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
         User user = (User) receiveObj.readObject();
 
-        if(user == null) {
+        if (user == null) {
             sendObj.writeObject("FAILED");
             return;
         }
@@ -51,11 +51,11 @@ public class Operations {
         String match;
 
 //        if (isEmail)
-            key = user.getEmail();
+        key = user.getEmail();
 //        else
 //            key = Server.usersName.get(user.getUsername());
 
-        if(key != null) {
+        if (key != null) {
             if (Server.users.containsKey(key)) {
                 match = Server.users.get(key).getPassword();
                 if (match.equals(user.getPassword())) {
@@ -134,11 +134,10 @@ public class Operations {
         String imgPath = Utils.base64ToImg(animal.getAnimalPic(), Configs.uploadLocation);
         animal.getAnimalPic().setPath(imgPath);
 
-        if(animal.getType().equalsIgnoreCase("cat")) {
+        if (animal.getType().equalsIgnoreCase("cat")) {
             Server.cat.add(animal);
             FileIO.writeObjToFile(Server.cat, Configs.catData);
-        }
-        else {
+        } else {
             Server.dog.add(animal);
             FileIO.writeObjToFile(Server.dog, Configs.dogData);
         }
@@ -156,9 +155,9 @@ public class Operations {
         System.out.println(" - Filtering Animal");
         ArrayList<Animal> list = new ArrayList<>();
 
-        if(animal.equalsIgnoreCase("cat")) {
+        if (animal.equalsIgnoreCase("cat")) {
             for (Animal a : Server.cat) {
-                if(user == null) {
+                if (user == null) {
                     list.add(a);
                     continue;
                 }
@@ -167,7 +166,7 @@ public class Operations {
             }
         } else if (animal.equalsIgnoreCase("dog")) {
             for (Animal a : Server.dog) {
-                if(user == null) {
+                if (user == null) {
                     list.add(a);
                     continue;
                 }
@@ -196,27 +195,26 @@ public class Operations {
     }
 
     private static boolean matchAnimal(Animal a, Animal b) {
-        if(!a.getPetname().equalsIgnoreCase(b.getPetname()))
+        if (!a.getPetname().equalsIgnoreCase(b.getPetname()))
             return false;
-        if(!a.getType().equalsIgnoreCase(b.getType()))
+        if (!a.getType().equalsIgnoreCase(b.getType()))
             return false;
-        if(!a.getAge().equalsIgnoreCase(b.getAge()))
+        if (!a.getAge().equalsIgnoreCase(b.getAge()))
             return false;
-        if(!a.getOwner().equalsIgnoreCase(b.getOwner()))
+        if (!a.getOwner().equalsIgnoreCase(b.getOwner()))
             return false;
-        if(!a.getBreedName().equalsIgnoreCase(b.getBreedName()))
+        if (!a.getBreedName().equalsIgnoreCase(b.getBreedName()))
             return false;
-        if(!a.getFoodhabit().equalsIgnoreCase(b.getFoodhabit()))
-            return false;
-        return true;
+        return a.getFoodhabit().equalsIgnoreCase(b.getFoodhabit());
     }
+
     public static void updatePetStatus(ObjectInputStream receiveObj) throws IOException, ClassNotFoundException {
         Animal animal = (Animal) receiveObj.readObject();
         System.out.println(" - (updatePetStatus) Animal Name: " + animal.getBreedName());
         int i = 0;
 
-        if(animal.getType().equalsIgnoreCase("cat")) {
-            for (Animal a: Server.cat) {
+        if (animal.getType().equalsIgnoreCase("cat")) {
+            for (Animal a : Server.cat) {
                 if (matchAnimal(a, animal)) {
                     Server.cat.get(i).setStatus("Not Available");
                     FileIO.writeObjToFile(Server.cat, Configs.catData);
@@ -226,7 +224,7 @@ public class Operations {
                 i++;
             }
         } else {
-            for (Animal a: Server.dog) {
+            for (Animal a : Server.dog) {
                 if (matchAnimal(a, animal)) {
                     Server.dog.get(i).setStatus("Not Available");
                     FileIO.writeObjToFile(Server.dog, Configs.dogData);

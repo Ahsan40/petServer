@@ -1,7 +1,8 @@
 package server;
+
 import Classes.Animal;
-import utils.FileIO;
 import Classes.User;
+import utils.FileIO;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -13,7 +14,6 @@ import java.util.Map;
 import static main.Configs.*;
 
 public class Server {
-    public ServerSocket serverSocket;
     public static int clientCount = 0;
     public static HashMap<ClientHandler, String> clients = new HashMap<>();
     public static HashMap<String, User> users = new HashMap<>();
@@ -21,6 +21,7 @@ public class Server {
     public static ArrayList<Animal> dog = new ArrayList<>();
     public static HashMap<String, ArrayList<Animal>> favourite = new HashMap<>();
     public static HashMap<String, String> usersName = new HashMap<>(); // for checking userName
+    public ServerSocket serverSocket;
 
     public Server(ServerSocket serverSocket) {
         this.serverSocket = serverSocket;
@@ -39,14 +40,14 @@ public class Server {
             dog = FileIO.readObjFromFile(dogData);
 
             // Duplicate UserName Checking Map
-            for(Map.Entry<String, User> u: users.entrySet()) {
+            for (Map.Entry<String, User> u : users.entrySet()) {
                 usersName.put(u.getValue().getUsername(), u.getValue().getEmail());
             }
 
             System.out.println("Server is waiting for client.");
 
             while (!serverSocket.isClosed()) {
-                Socket sc =  serverSocket.accept();
+                Socket sc = serverSocket.accept();
                 ClientHandler ch = new ClientHandler(sc);
                 Thread t = new Thread(ch);
                 t.start();

@@ -4,10 +4,10 @@ import java.io.*;
 import java.net.Socket;
 
 public class ClientHandler implements Runnable {
-    private int id;
     public Socket sc;
     public ObjectInputStream receiveObj;
     public ObjectOutputStream sendObj;
+    private int id;
 
     public ClientHandler(Socket sc) {
         try {
